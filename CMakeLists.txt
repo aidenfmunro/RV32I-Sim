@@ -10,7 +10,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 include_directories(${PROJECT_SOURCE_DIR}/include)
 
 file(GLOB SOURCES
-    ${PROJECT_SOURCE_DIR}/source/main.cc
+    ${PROJECT_SOURCE_DIR}/source/*.cpp
 )
 
 add_executable(rv32i ${SOURCES})
