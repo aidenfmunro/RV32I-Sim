@@ -1,6 +1,10 @@
-#include "Syscall.hpp"
 #include <iostream>
 #include <cstdlib>
+
+#include <iostream>
+#include "Syscall.hpp"
+#include "IntTypes.hpp"
+#include "InterpreterState.hpp"
 
 namespace rv32i {
 
@@ -15,15 +19,23 @@ ExecutionStatus handle_syscall(InterpreterState& s)
     {
         case 63: // read
         {
+            u32 bytesRead = 0;
+
             if (a0 == 0) 
             { // stdin
                 for (u32 i = 0; i < a2; ++i) 
                  {
                     char c;
                     if (!std::cin.get(c)) break;
-                    s.memory.StoreU8(a1 + i, static_cast<uint8_t>(c));
+                    
+                    std::cerr << c;
+                    s.memory.StoreU8(a1 + i, static_cast<u8>(c));
+
+                    bytesRead++;
                 }
             }
+
+            s.regs[10] = bytesRead;
 
             s.pc += 4u;
 
