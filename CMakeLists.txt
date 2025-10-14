@@ -7,10 +7,14 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-include_directories(${PROJECT_SOURCE_DIR}/include)
+include_directories(
+    ${PROJECT_SOURCE_DIR}/include
+    ${PROJECT_SOURCE_DIR}/third_party/ELFIO
+)
 
 file(GLOB SOURCES
     ${PROJECT_SOURCE_DIR}/source/*.cpp
 )
 
 add_executable(rv32i ${SOURCES})
+

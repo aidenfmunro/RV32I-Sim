@@ -34,7 +34,7 @@ u8 get_rs2(u32 w)
 
 u8 get_funct7(u32 w) 
 { 
-    return static_cast<u8>(bits(w,31,25)); 
+    return static_cast<u8>(bits(w, 31, 25)); 
 }
 
 s32 get_imm_i(u32 w) 
@@ -53,9 +53,9 @@ s32 get_imm_s(u32 w)
 s32 get_imm_b(u32 w) 
 { 
     uint32_t imm = (bits(w, 31, 31) << 12) 
-        | (bits(w, 7, 7) << 11) 
+        | (bits(w,  7,  7) << 11) 
         | (bits(w, 30, 25) << 5) 
-        | (bits(w,11,8) << 1); 
+        | (bits(w, 11,  8) << 1); 
 
     return static_cast<int32_t>(imm << 19) >> 19; 
 }

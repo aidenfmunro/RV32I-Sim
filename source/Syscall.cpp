@@ -1,6 +1,4 @@
 #include "Syscall.hpp"
-
-#include "Syscall.hpp"
 #include <iostream>
 #include <cstdlib>
 
@@ -23,7 +21,7 @@ ExecutionStatus handle_syscall(InterpreterState& s)
                  {
                     char c;
                     if (!std::cin.get(c)) break;
-                    s.StoreU8(a1 + i, static_cast<uint8_t>(c));
+                    s.memory.StoreU8(a1 + i, static_cast<uint8_t>(c));
                 }
             }
 
@@ -34,11 +32,12 @@ ExecutionStatus handle_syscall(InterpreterState& s)
 
         case 64: // write
         {
+            std::cerr << "I'm in write";
             if (a0 == 1) 
                 { // stdout
                 for (uint32_t i = 0; i < a2; ++i) 
                 {
-                    char c = static_cast<char>(s.LoadU8(a1 + i));
+                    char c = static_cast<char>(s.memory.LoadU8(a1 + i));
                     std::cout.put(c);
                 }
 

@@ -58,23 +58,23 @@ struct FormatLoad  //> load variants handled by Oper type selection
 
         if constexpr (std::is_same_v<Oper, struct LbOp>) 
         {
-            s.regs[info.rd] = static_cast<s32>(static_cast<int8_t>(s.LoadU8(addr)));
+            s.regs[info.rd] = static_cast<s32>(static_cast<int8_t>(s.memory.LoadU8(addr)));
         } 
         else if constexpr (std::is_same_v<Oper, struct LbuOp>) 
         {
-            s.regs[info.rd] = s.LoadU8(addr);
+            s.regs[info.rd] = s.memory.LoadU8(addr);
         } 
         else if constexpr (std::is_same_v<Oper, struct LhOp>) 
         {
-            s.regs[info.rd] = static_cast<s32>(static_cast<s16>(s.LoadU16(addr)));
+            s.regs[info.rd] = static_cast<s32>(static_cast<s16>(s.memory.LoadU16(addr)));
         } 
         else if constexpr (std::is_same_v<Oper, struct LhuOp>) 
         {
-            s.regs[info.rd] = s.LoadU16(addr);
+            s.regs[info.rd] = s.memory.LoadU16(addr);
         } 
         else 
         {
-            s.regs[info.rd] = s.LoadU32(addr);
+            s.regs[info.rd] = s.memory.LoadU32(addr);
         }
 
         s.pc = info.pc + 4u;
@@ -94,15 +94,15 @@ struct FormatS
 
         if constexpr (std::is_same_v<Oper, struct SbOp>) 
         {
-            s.StoreU8(addr, static_cast<u8>(val & 0xFF));
+            s.memory.StoreU8(addr, static_cast<u8>(val & 0xFF));
         } 
         else if constexpr (std::is_same_v<Oper, struct ShOp>) 
         {
-            s.StoreU16(addr, static_cast<uint16_t>(val & 0xFFFF));
+            s.memory.StoreU16(addr, static_cast<uint16_t>(val & 0xFFFF));
         }
         else 
         {
-            s.StoreU32(addr, val);
+            s.memory.StoreU32(addr, val);
         }
 
         s.pc = info.pc + 4u;
