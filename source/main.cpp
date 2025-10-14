@@ -12,6 +12,7 @@
 #include "Decoder.hpp"
 #include "Status.hpp"
 #include "Syscall.hpp"
+#include "Debugger.hpp"
 
 using namespace rv32i;
 
@@ -101,7 +102,9 @@ int main(int argc, char* argv[])
         return 1;
     }
 
-     try {
+    Debugger dbg(true /* enable */, "");
+
+    try {
         // 1. Load ELF and setup stack
         std::vector<std::string> args(argv + 1, argv + argc);
         Interpreter cpu;
@@ -117,7 +120,12 @@ int main(int argc, char* argv[])
             u32 instr = cpu.load<u32>(cpu.pc());
             auto [info, key] = Decoder::decode(instr, cpu.pc());
 
+            dbg.dump_pc(cpu.state);
+            dbg.trace_instruction(info, instr);
+
             ExecutionStatus st = cpu.dispatch(cpu.state, info, key);
+            
+            dbg.dump_registers(cpu.state);
 
             if (st != ExecutionStatus::Success)
                 break;

@@ -17,20 +17,27 @@ std::pair<InstrInfo, u32> Decoder::decode(u32 instr_word, u32 pc)
     u8 funct3  = get_funct3(instr_word);
     u8 funct7  = get_funct7(instr_word);
 
+    u32 key = 0;
+
     switch (static_cast<int>(opcode))
     {
         case Opcode::R_TYPE:
             info.imm = 0;
+            key |= u32(funct7) << 16;
+            key |= u32(funct3) << 8;
             break; // R
         case Opcode::I_TYPE:
+            key |= u32(funct3) << 8;
         case Opcode::LOAD:
         case Opcode::I_JALR:
             info.imm = static_cast<u32>(get_imm_i(instr_word));
             break;
         case Opcode::S_TYPE:
+            key |= u32(funct3) << 8;
             info.imm = static_cast<u32>(get_imm_s(instr_word));
             break;
         case Opcode::B_TYPE:
+            key |= u32(funct3) << 8;
             info.imm = static_cast<u32>(get_imm_b(instr_word));
             break;
         case Opcode::U_LUI:
@@ -45,7 +52,7 @@ std::pair<InstrInfo, u32> Decoder::decode(u32 instr_word, u32 pc)
             break; // FIXME: give default type!
     }
 
-    u32 key = u32(opcode) | (u32(funct3) << 8) | (u32(funct7) << 16);
+    key |= u32(opcode);
 
     return {info, key};
 }

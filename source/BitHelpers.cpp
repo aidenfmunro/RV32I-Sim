@@ -38,8 +38,12 @@ u8 get_funct7(u32 w)
 }
 
 s32 get_imm_i(u32 w) 
-{ 
-    return static_cast<int32_t>(w) >> 20; 
+{
+    u32 imm = (w >> 20) & 0xFFF;
+    // sign-extend 12-bit immediate
+    if (imm & 0x800)
+        imm |= 0xFFFFF000;
+    return static_cast<s32>(imm);
 }
 
 s32 get_imm_s(u32 w) 

@@ -76,7 +76,7 @@ struct SltuOp
 struct AddiOp   
 { 
     static constexpr const char* name = "addi"; 
-    static u32 exec(u32 a,s32 imm)
+    static u32 exec(u32 a, s32 imm)
     { 
         return a + imm; 
     } 

@@ -3,7 +3,7 @@
 //> Unified Format abstractions 
 //> Each Format implements a template `execute<Oper>(state, info)` that performs the
 //> shared operand extraction and calls Oper's semantics
-
+#include <iostream>
 #include "IntTypes.hpp"
 #include "InterpreterState.hpp"
 #include "Status.hpp"
@@ -36,7 +36,7 @@ struct FormatI
     static ExecutionStatus execute(InterpreterState& s, InstrInfo const& info) 
     {
         u32 a = s.regs[info.rs1];
-        s32 imm = static_cast<int32_t>(info.imm);
+        s32 imm = static_cast<s32>(info.imm);
 
         u32 r = Oper::exec(a, imm);
 

@@ -6,10 +6,10 @@ namespace rv32i {
 
 ExecutionStatus handle_syscall(InterpreterState& s) 
 {
-    const uint32_t syscall_num = s.regs[17]; // a7
-    const uint32_t a0 = s.regs[10]; // arg0
-    const uint32_t a1 = s.regs[11]; // arg1
-    const uint32_t a2 = s.regs[12]; // arg2
+    const u32 syscall_num = s.regs[17]; // a7
+    const u32 a0 = s.regs[10]; // arg0
+    const u32 a1 = s.regs[11]; // arg1
+    const u32 a2 = s.regs[12]; // arg2
 
     switch (syscall_num) 
     {
@@ -17,7 +17,7 @@ ExecutionStatus handle_syscall(InterpreterState& s)
         {
             if (a0 == 0) 
             { // stdin
-                for (uint32_t i = 0; i < a2; ++i) 
+                for (u32 i = 0; i < a2; ++i) 
                  {
                     char c;
                     if (!std::cin.get(c)) break;
@@ -32,10 +32,9 @@ ExecutionStatus handle_syscall(InterpreterState& s)
 
         case 64: // write
         {
-            std::cerr << "I'm in write";
             if (a0 == 1) 
                 { // stdout
-                for (uint32_t i = 0; i < a2; ++i) 
+                for (u32 i = 0; i < a2; ++i) 
                 {
                     char c = static_cast<char>(s.memory.LoadU8(a1 + i));
                     std::cout.put(c);

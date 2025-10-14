@@ -1,5 +1,6 @@
 #pragma once
 
+#include <iostream>
 #include <unordered_map>
 #include "InterpreterState.hpp"
 #include "Status.hpp"
@@ -21,7 +22,11 @@ public:
     ExecutionStatus dispatch(InterpreterState& s, InstrInfo const& info, u32 key) const 
     {
         auto it = handlers_.find(key);
-        if (it == handlers_.end()) return ExecutionStatus::TrapIllegal;
+        if (it == handlers_.end()) 
+        {
+            return ExecutionStatus::TrapIllegal;
+        }
+
         return it->second(s, info);
     }
 
