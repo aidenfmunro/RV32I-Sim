@@ -17,4 +17,4 @@ constexpr Handler make_handler()
     };
 }
 
-}
+} // namespace rv32i

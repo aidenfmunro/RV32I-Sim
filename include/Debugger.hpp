@@ -1,11 +1,11 @@
 #pragma once
 
-#include "BitHelpers.hpp"
-#include "InstrInfo.hpp"
-#include "InterpreterState.hpp"
 #include <fstream>
 #include <iomanip>
 #include <iostream>
+#include "BitHelpers.hpp"
+#include "InstrInfo.hpp"
+#include "InterpreterState.hpp"
 
 namespace rv32i {
 
@@ -15,11 +15,13 @@ class Debugger
     std::ofstream logfile;
 
 public:
-    explicit Debugger(bool enable = true, const std::string& log_path = "")
+    explicit Debugger(bool enable = true, const std::string& log_path = "", const std::string& elf_path = "")
     :   enabled(enable)
     {
         if (!log_path.empty())
             logfile.open(log_path);
+
+        out() << "Start trace of" + elf_path;
     }
 
     void setEnabled(bool e) { enabled = e; }

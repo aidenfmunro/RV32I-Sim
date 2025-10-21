@@ -210,7 +210,7 @@ struct BgeOp
 struct BltuOp 
 { 
     static constexpr const char* name = "bltu"; 
-    static bool cond(u32 a,u32 b)
+    static bool cond(u32 a, u32 b)
     { 
         return a < b; 
     } 
@@ -219,7 +219,7 @@ struct BltuOp
 struct BgeuOp 
 { 
     static constexpr const char* name = "bgeu"; 
-    static bool cond(u32 a,u32 b)
+    static bool cond(u32 a, u32 b)
     { 
         return a >= b; 
     } };

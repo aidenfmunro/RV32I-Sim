@@ -1,3 +1,4 @@
+#include <cstdio>
 #include <iostream>
 #include <cstdlib>
 
@@ -17,7 +18,7 @@ ExecutionStatus handle_syscall(InterpreterState& s)
 
     switch (syscall_num) 
     {
-        case 63: // read
+        case Syscall::READ: // read
         {
             u32 bytesRead = 0;
 
@@ -28,7 +29,7 @@ ExecutionStatus handle_syscall(InterpreterState& s)
                     char c;
                     if (!std::cin.get(c)) break;
                     
-                    std::cerr << c;
+                    // std::cerr << c;
                     s.memory.StoreU8(a1 + i, static_cast<u8>(c));
 
                     bytesRead++;
@@ -42,7 +43,7 @@ ExecutionStatus handle_syscall(InterpreterState& s)
             return ExecutionStatus::Success;
         }
 
-        case 64: // write
+        case Syscall::WRITE: // write
         {
             if (a0 == 1) 
                 { // stdout
@@ -60,10 +61,10 @@ ExecutionStatus handle_syscall(InterpreterState& s)
             return ExecutionStatus::Success;
         }
 
-        case 93: // exit
+        case Syscall::EXIT: // exit
         {
             int exit_code = static_cast<int>(a0);
-            std::cout << "\n[Program exited with code " << exit_code << "]\n";
+            // std::cerr << "\n[Program exited with code " << exit_code << "]\n";
             std::exit(exit_code);
         }
 

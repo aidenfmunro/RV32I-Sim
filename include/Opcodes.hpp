@@ -4,9 +4,10 @@
 
 namespace rv32i {
 
-enum Opcode : u8 {
+enum Opcode : u8 
+{
     R_TYPE    = 0x33,
-    I_TYPE    = 0x13, // immediate arithmetic
+    I_TYPE    = 0x13, 
     LOAD      = 0x03,
     S_TYPE    = 0x23,
     B_TYPE    = 0x63,

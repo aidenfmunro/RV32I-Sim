@@ -47,11 +47,9 @@ s32 get_imm_i(u32 w)
 }
 
 s32 get_imm_s(u32 w) 
-{ 
-    u32 imm = (bits(w, 31, 25) << 5) 
-             | bits(w, 11, 7); 
-
-    return static_cast<int32_t>(imm << 20) >> 20; 
+{
+    s32 imm = ((w >> 25) << 5) | ((w >> 7) & 0x1F);
+    return (imm << 20) >> 20; // now imm is signed, sign extends correctly
 }
 
 s32 get_imm_b(u32 w) 
@@ -66,7 +64,7 @@ s32 get_imm_b(u32 w)
 
 s32 get_imm_u(u32 w)
 {
-    return static_cast<int32_t>(w & 0xFFFFF000); 
+    return static_cast<int32_t>(w) >> 12 << 12;
 }
 
 s32 get_imm_j(u32 w) 

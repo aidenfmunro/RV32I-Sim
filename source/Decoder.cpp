@@ -1,6 +1,7 @@
 #include "Decoder.hpp"
 #include "BitHelpers.hpp"
 #include "Opcodes.hpp"
+#include <iostream>
 
 namespace rv32i {
 
@@ -28,8 +29,11 @@ std::pair<InstrInfo, u32> Decoder::decode(u32 instr_word, u32 pc)
             break; // R
         case Opcode::I_TYPE:
             key |= u32(funct3) << 8;
+            info.imm = static_cast<u32>(get_imm_i(instr_word));
+            break;
         case Opcode::LOAD:
         case Opcode::I_JALR:
+            key |= u32(funct3) << 8;
             info.imm = static_cast<u32>(get_imm_i(instr_word));
             break;
         case Opcode::S_TYPE:
@@ -42,9 +46,13 @@ std::pair<InstrInfo, u32> Decoder::decode(u32 instr_word, u32 pc)
             break;
         case Opcode::U_LUI:
         case Opcode::U_AUIPC:
-            info.imm = static_cast<u32>(get_imm_u(instr_word)); break;
+            std::cerr << "Imhere" << std::endl;
+            std::cerr << int(info.rd) << std::endl;
+            info.imm = static_cast<u32>(get_imm_u(instr_word)); 
+            break;
         case Opcode::J_TYPE:
-            info.imm = static_cast<u32>(get_imm_j(instr_word)); break;
+            info.imm = static_cast<u32>(get_imm_j(instr_word)); 
+            break;
         case Opcode::SYSTEM:
             
         default:

@@ -21,6 +21,8 @@ endif()
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+add_subdirectory(third_party/loguru)
+
 include_directories(
     ${PROJECT_SOURCE_DIR}/include
     ${PROJECT_SOURCE_DIR}/third_party/ELFIO
@@ -30,5 +32,30 @@ file(GLOB SOURCES
     ${PROJECT_SOURCE_DIR}/source/*.cpp
 )
 
-add_executable(rv32i ${SOURCES})
+add_executable(rv32i main.cpp ${SOURCES})
+
+target_link_libraries(rv32i PRIVATE loguru)
+
+find_package(GTest REQUIRED)
+
+file(GLOB TEST_SOURCES
+    ${PROJECT_SOURCE_DIR}/tests/source/*.cpp
+)
+
+add_executable(tests tests/main.cpp ${SOURCES} ${TEST_SOURCES})
+
+target_compile_features(tests PUBLIC cxx_std_20)
+
+target_include_directories(tests PRIVATE
+	${CMAKE_SOURCE_DIR}/include
+)
+
+target_link_libraries(tests
+    GTest::gtest 
+    GTest::gtest_main
+)
+
+enable_testing()
+add_test(NAME UnitTests COMMAND tests)
+
 

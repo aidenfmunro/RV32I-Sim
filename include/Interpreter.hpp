@@ -13,6 +13,7 @@ class Interpreter
     std::unordered_map<u32, Handler> handlers_;
 
 public:
+
     Interpreter() = default;
 
     InterpreterState state;
@@ -21,11 +22,17 @@ public:
 
     ExecutionStatus dispatch(InterpreterState& s, InstrInfo const& info, u32 key) const 
     {
+        std::cerr << "[DISPATCH] key=0x" << std::hex << key << std::dec << std::endl;
+
         auto it = handlers_.find(key);
+
         if (it == handlers_.end()) 
         {
+            std::cerr << "No handler found for " << key << std::endl;
             return ExecutionStatus::TrapIllegal;
         }
+
+        std::cerr << "Handler found for " << key << std::endl;
 
         return it->second(s, info);
     }
@@ -68,4 +75,4 @@ public:
     const u32& reg(int i) const { return state.regs[i]; }
 };
 
-}
+} // namespace rv32i

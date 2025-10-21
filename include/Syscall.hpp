@@ -5,7 +5,14 @@
 
 namespace rv32i {
 
-    ExecutionStatus handle_syscall(InterpreterState& s);
+enum Syscall : u32 
+{
+    READ   = 63,
+    WRITE  = 64,
+    EXIT   = 93
+};
+
+ExecutionStatus handle_syscall(InterpreterState& s);
 
 } // namespace rv32i
 

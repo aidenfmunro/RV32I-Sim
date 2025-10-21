@@ -48,13 +48,13 @@ static u32 setupStack(Interpreter& cpu,
     const u32 argv_bytes = 4u * (argc_u32 + 1u); // + one NULL
     u32 sp = stack_top - (4u /*argc*/ + argv_bytes);
 
-    // Write argc
+    // argc
     cpu.store<u32>(sp + 0, argc_u32);
-    // Write argv[i]
+    // argv[i]
     for (u32 i = 0; i < argc_u32; ++i)
         cpu.store<u32>(sp + 4u + 4u * i, argv_ptrs[i]);
     // argv terminator
-    cpu.store<u32>(sp + 4u + 4u * argc_u32, 0);
+    cpu.store<u32>(sp + 4u /* argc */ + 4u * argc_u32, 0);
 
     return sp;
 }
@@ -81,7 +81,7 @@ ElfLoadResult loadElfAndSetupStack(
         throw std::runtime_error("ELF is not RISC-V");
 
     // Prefer ET_EXEC for now (no relocations)
-    if (reader.get_type() != ELFIO::ET_EXEC && reader.get_type() != ELFIO::ET_DYN)
+    if (reader.get_type() != ELFIO::ET_EXEC /* && reader.get_type() != ELFIO::ET_DYN */)
         throw std::runtime_error("Unsupported ELF type (need ET_EXEC/ET_DYN)");
 
     ElfLoadResult res{};
@@ -127,6 +127,7 @@ ElfLoadResult loadElfAndSetupStack(
     // Choose a stack top:
     // - if caller gave a hint, use it (align to 16)
     // - otherwise put it >= max_vaddr + 1MB, and at least 16MB total space
+
     u32 stack_top = 0;
     if (stack_top_hint != 0) 
     {
@@ -147,12 +148,8 @@ ElfLoadResult loadElfAndSetupStack(
 
     res.sp = setupStack(cpu, stack_top, argv_vec);
 
-    // Set CPU registers
     cpu.state.pc      = res.entry;
     cpu.state.regs[2] = res.sp;      // sp = x2
-    //
-    
-    std::cerr << "I'm here!";
 
     return res;
 }

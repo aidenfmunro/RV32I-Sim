@@ -2,8 +2,6 @@
 
 #include <utility>
 #include "InstrInfo.hpp"
-#include "BitHelpers.hpp"
-#include "Opcodes.hpp"
 
 namespace rv32i {
 

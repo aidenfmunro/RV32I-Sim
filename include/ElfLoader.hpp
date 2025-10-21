@@ -21,7 +21,5 @@ ElfLoadResult loadElfAndSetupStack(
     const std::vector<std::string>& args,
     u32 stack_top_hint);
 
-
-
 } // namespace rv32i
 
