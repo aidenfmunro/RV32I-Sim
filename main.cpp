@@ -24,7 +24,7 @@ int main(int argc, char* argv[])
     try {
         std::vector<std::string> args(argv + 1, argv + argc);
         Interpreter cpu;
-        auto load = loadElfAndSetupStack(cpu, argv[1], args, 0);
+        auto load = loadElf(cpu, argv[1], args, 0);
 
         register_all_handlers(cpu);
 

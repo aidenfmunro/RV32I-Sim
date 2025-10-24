@@ -15,7 +15,7 @@ struct ElfLoadResult
     u32 sp        = 0; // initial sp
 };
 
-ElfLoadResult loadElfAndSetupStack(
+ElfLoadResult loadElf(
     Interpreter& cpu,
     const std::string& elf_path,
     const std::vector<std::string>& args,

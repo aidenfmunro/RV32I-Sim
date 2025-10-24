@@ -59,7 +59,7 @@ static u32 setupStack(Interpreter& cpu,
     return sp;
 }
 
-ElfLoadResult loadElfAndSetupStack(
+ElfLoadResult loadElf(
     Interpreter& cpu,
     const std::string& elf_path,
     const std::vector<std::string>& args,
@@ -80,8 +80,7 @@ ElfLoadResult loadElfAndSetupStack(
     if (reader.get_machine()  != ELFIO::EM_RISCV)    
         throw std::runtime_error("ELF is not RISC-V");
 
-    // Prefer ET_EXEC for now (no relocations)
-    if (reader.get_type() != ELFIO::ET_EXEC /* && reader.get_type() != ELFIO::ET_DYN */)
+    if (reader.get_type() != ELFIO::ET_EXEC)
         throw std::runtime_error("Unsupported ELF type (need ET_EXEC/ET_DYN)");
 
     ElfLoadResult res{};

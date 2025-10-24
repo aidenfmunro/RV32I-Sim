@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.16)
 project(rv32i_sim LANGUAGES CXX)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
@@ -21,12 +21,7 @@ endif()
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-add_subdirectory(third_party/loguru)
-
-include_directories(
-    ${PROJECT_SOURCE_DIR}/include
-    ${PROJECT_SOURCE_DIR}/third_party/ELFIO
-)
+# add_subdirectory(third_party/loguru)
 
 file(GLOB SOURCES
     ${PROJECT_SOURCE_DIR}/source/*.cpp
@@ -34,7 +29,12 @@ file(GLOB SOURCES
 
 add_executable(rv32i main.cpp ${SOURCES})
 
-target_link_libraries(rv32i PRIVATE loguru)
+target_include_directories(rv32i PRIVATE
+    ${PROJECT_SOURCE_DIR}/include
+    ${PROJECT_SOURCE_DIR}/third_party/ELFIO
+)
+
+# target_link_libraries(rv32i PRIVATE loguru)
 
 find_package(GTest REQUIRED)
 
